@@ -8,30 +8,30 @@
 
 import Foundation
 import UIKit
+import Kingfisher
 
 class VTCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var vTViewImage: UIImageView!
     @IBOutlet weak var activityIdicator: UIActivityIndicatorView!
-    
-   
-    func setCell(img : String, pin: Pin){
-            activityIdicator.isHidden = false
-            activityIdicator.startAnimating()
-            vTViewImage.downloaded(from: img, pin: pin) {
-                self.activityIdicator.stopAnimating()
-                self.activityIdicator.isHidden = true
-                
+
+    var image: Images! {
+        didSet {
+            if let image = image.fetchImage() {
+                vTViewImage.image = image
+            } else if let url = URL(string: image.imageURL!){
+                vTViewImage.kf.indicatorType = .activity
+                vTViewImage.kf.setImage(with: url, options: [.transition(.fade(0.5))])
             }
-    
         }
-    
-    func setCellFromDB(image:UIImage) {
-        vTViewImage.image = image
     }
-    
-    
-        
-    }
+ }
 
 
+extension Images {
+    
+    func fetchImage() -> UIImage? {
+        guard let data = image else { return nil }
+        return UIImage(data: data)
+    }
+}

@@ -66,6 +66,7 @@
                                                 </activityIndicatorView>
                                             </subviews>
                                         </view>
+                                        <color key="backgroundColor" red="0.83921568629999999" green="0.83921568629999999" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="GL0-Ur-abV" firstAttribute="leading" secondItem="fUn-5W-pBI" secondAttribute="leading" id="0am-dJ-yAO"/>
                                             <constraint firstAttribute="trailing" secondItem="GL0-Ur-abV" secondAttribute="trailing" id="3mJ-vg-TEP"/>
@@ -90,7 +91,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="New Collection"/>
                                 <connections>
-                                    <action selector="pressNewCollection:" destination="CkQ-tY-Deg" eventType="touchUpInside" id="QGy-lm-CV3"/>
+                                    <action selector="pressNewCollection:" destination="CkQ-tY-Deg" eventType="touchUpInside" id="E63-7M-wE3"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -143,12 +144,6 @@
         <!--Virtual Tourist-->
         <scene sceneID="GyZ-lu-TbH">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dmn-7M-arD" sceneMemberID="firstResponder"/>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="Iqo-dH-XxM">
-                    <connections>
-                        <action selector="addPin:" destination="yNG-82-Pyc" id="iaw-Cr-U59"/>
-                    </connections>
-                </pongPressGestureRecognizer>
                 <viewController id="yNG-82-Pyc" customClass="MapViewController" customModule="virtual_tourist" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QXF-bl-GDc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -194,6 +189,12 @@
                         <outlet property="tapPinsDeleteLabel" destination="thI-Mu-Fwa" id="YJE-Hm-ieE"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dmn-7M-arD" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="Iqo-dH-XxM">
+                    <connections>
+                        <action selector="addPin:" destination="yNG-82-Pyc" id="iaw-Cr-U59"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-604.34782608695662" y="132.58928571428572"/>
         </scene>

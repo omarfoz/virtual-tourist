@@ -12,34 +12,31 @@ import CoreData
 
 class ImageManager {
     
-    
-    class func getNewImage(pin: Pin, imageUrl: String, imageData: Data) {
+    class func getNewPhoto(pin: Pin, imageUrl: String) {
         
-        let image = Images(context: DataController.shared.viewContext)
-        image.createdAt = Date()
-        image.imageURL = imageUrl
-        image.image = imageData
-        image.pin = pin
+        let photo = Images(context: DataController.shared.viewContext)
+        photo.createdAt = Date()
+        photo.imageURL = imageUrl
+        photo.pin = pin
     }
     
-    
-    class func saveImage(pin: Pin, imageUrl: String, imageData: Data) {
+    class func savePhotos(pin: Pin, images: [FlickerImage]) {
         
-       
-       getNewImage(pin: pin, imageUrl: imageUrl,imageData: imageData)
-    
-        DataController.shared.saveContext()
-    }
-    
-    class func deleteImages(pin: Pin) {
-       for image in pin.images! as! Set<Images> {
-            deleteImage(image: image)
+        for image in images {
+            getNewPhoto(pin: pin, imageUrl: image.urlM)
         }
         DataController.shared.saveContext()
     }
     
-    class func deleteImage(image: Images) {
-        DataController.shared.viewContext.delete(image)
+    class func deletePhotos(photos: [Images]) {
+        for photo in photos {
+            deletePhoto(photo: photo)
+        }
+        DataController.shared.saveContext()
+    }
+    
+    class func deletePhoto(photo: Images) {
+        DataController.shared.viewContext.delete(photo)
     }
     
     

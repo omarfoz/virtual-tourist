@@ -51,25 +51,4 @@ class FlickrClient {
         task.resume()
     }
     
-    class func downloaded(from url: URL,pin: Pin,done: @escaping (UIImage)-> Void) {  // for swift
-       
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard
-                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                let data = data, error == nil,
-                let image = UIImage(data: data)
-                else { return }
-            ImageManager.saveImage(pin: pin, imageUrl: url.absoluteString, imageData: data)
-           
-                done(image)
-            }.resume()
-    }
-   class func downloaded(from link: String,pin: Pin,done: @escaping (UIImage)-> Void) {  // for swift 
-        guard let url = URL(string: link) else { return }
-    downloaded(from: url, pin: pin) { (image) in
-            done(image)
-    }
-    }
-    
 }

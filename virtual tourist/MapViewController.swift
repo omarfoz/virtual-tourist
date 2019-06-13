@@ -62,9 +62,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
             if let pin = annotation.pinObject {
                 photoAlbumViewController.pin = pin
-                for image in pin.images! as! Set<Images> {
-                    let imageUi = UIImage(data: image.image!)
-                    photoAlbumViewController.arrDBImage.append(imageUi!) }
             }
             
             mapView.deselectAnnotation(view.annotation!, animated: true)
@@ -75,12 +72,16 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     func getDataFromFlicker(_ mapView: MKMapView,didSelect view: MKAnnotationView,annotation: PinAnnotation,coordinate: CLLocationCoordinate2D){
-        
         FlickrClient.searchPhotos(latitude: Double(coordinate.latitude), longitude: Double(coordinate.longitude), done: { (arrImges) in
             
             guard let photoAlbumViewController = self.storyboard?.instantiateViewController(withIdentifier: "photoView") as? PhotoAlbumViewController else {return}
             
-            if let pin = annotation.pinObject { photoAlbumViewController.pin = pin }
+            if let pin = annotation.pinObject {
+                
+                photoAlbumViewController.pin = pin
+               // ImageManager.deleteImages(pin: pin)
+            }
+            
             photoAlbumViewController.arrFlickerImages = arrImges
             mapView.deselectAnnotation(view.annotation!, animated: true)
             self.navigationController?.pushViewController(photoAlbumViewController, animated: true)
@@ -91,17 +92,24 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
     }
     
+    func pushAlbumVC(pin: Pin) {
+        guard let albumVC = storyboard?.instantiateViewController(withIdentifier: "photoView") as? PhotoAlbumViewController else {
+            return
+        }
+        albumVC.pin = pin
+        navigationController?.pushViewController(albumVC, animated: true)
+    }
+    
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
         if !deleteFlag {
-         let annotation = (view.annotation) as! PinAnnotation
-         if annotation.pinObject.images!.count != 0 {
-            getDataFromDB(mapView, didSelect: view, annotation: annotation)
-        } else if let coordinates = view.annotation?.coordinate {
             
-           getDataFromFlicker(mapView, didSelect: view, annotation: annotation, coordinate: coordinates)
-       }
+            let annotation = (view.annotation) as! PinAnnotation
+            if let pin = annotation.pinObject {
+            pushAlbumVC(pin: pin)
+            }
+            mapView.deselectAnnotation(annotation, animated: true)
             
     } else {
             let lat = Double(view.annotation!.coordinate.latitude)
